@@ -11,6 +11,26 @@ namespace Chinook.Framework.BLL
 {
     public class CustomerManager
     {
-
+        public CustomerProfile GetProfile(int customerId)
+        {
+            //Access the database
+            using (var context = new ChinookContext())
+            {
+                var profile = from person in context.Customers
+                              where person.CustomerId == customerId
+                              select new CustomerProfile()
+                              {
+                                  FirstName = person.FirstName,
+                                  LastName = person.LastName,
+                                  CompanyName = person.Company,
+                                  StreetAddress = person.Address,
+                                  City = person.City,
+                                  State = person.State,
+                                  Country = person.Country,
+                                  PostalCode = person.PostalCode
+                              };
+                return profile.Single();
+            }
+        }
     }
 }
